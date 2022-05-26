@@ -1,0 +1,20 @@
+{
+  "name": "spellcheck",
+  "version": "1.0.0",
+  "description": "SpellChecks the md files in the provided repository",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "spellcheck",
+    "redis"
+  ],
+  "author": "Steve Lorello",
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^1.8.2",
+    "actions-toolkit": "^2.1.0",
+    "child_process": "^1.0.2"
+  }
+}

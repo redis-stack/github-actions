@@ -1,0 +1,9 @@
+name: 'Spellcheck'
+description: 'Runs a spellcheck against the provided docs directory.'
+author: 'Steve Lorello'
+branding:
+  icon: 'search'
+  color: 'orange'
+runs:
+  using: docker
+  image: Dockerfile  
