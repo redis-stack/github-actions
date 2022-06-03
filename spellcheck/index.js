@@ -29,6 +29,7 @@ Toolkit.run(async tools => {
 
         childProcess.execSync(`cp ${configuration_file} ./${dir}/.spellchecker.yml`)
         const lsOfDir = childProcess.execSync(`ls -l ${dir}`)
+        console.log(lsOfDir);
     }
     
     childProcess.exec(`cd ${dir} && spellchecker --no-suggestions --config .spellchecker.yml`, (exception,out,err)=>{        
