@@ -5,9 +5,8 @@ const fs = require('fs').promises;
 const yaml = require('js-yaml');
 
 Toolkit.run(async tools => {
-    const base_dir = process.env.BASE_DIR == null ? "/app" : process.env.BASE_DIR;
-    const dir = process.env.DOCS_DIRECTORY;    
-    const dictionary = process.env.DICTIONARY == null ? "/app/default_dictionary.txt" : process.env.DICTIONARY;
+    const base_dir = process.env.BASE_DIR == null ? "/github/workspace/" : process.env.BASE_DIR;
+    const dir = process.env.DOCS_DIRECTORY;        
     const configuration_file = process.env.CONFIGURATION_FILE == null ? "/app/.spellcheck_default.yml" : process.env.CONFIGURATION_FILE;
     const commands_files = process.env.COMMANDS_FILES;
 
@@ -16,22 +15,19 @@ Toolkit.run(async tools => {
         await BuildCommandsDictionaryFile(commands_files, configuration_file, base_dir);
     }
     
-    if(dir != '.'){
-        dictionaries = yaml.load((await fs.readFile(configuration_file)).toString()).dictionaries;
-        dictionaries.forEach(async d => {
-            try {
-                await fs.access(`./${dir}${d}`);
-            }
-            catch(e){
-                childProcess.execSync(`cp ${base_dir}/${d} ./${dir}`);
-            }
-        });
+    dictionaries = yaml.load((await fs.readFile(configuration_file)).toString()).dictionaries;
+    dictionaries.forEach(async d => {
+        try{
+            childProcess.execSync(`cp ${base_dir}/${d} ./${dir}`);
+        }
+        catch (e){
+            //ignore, this is just saying the files are the same.
+        }
+        
+    });
 
-        childProcess.execSync(`cp ${configuration_file} ./${dir}/.spellchecker.yml`)
-        const lsOfDir = childProcess.execSync(`ls -l ${dir}`)
-        console.log(lsOfDir.toString());
-    }
-    
+    childProcess.execSync(`cp ${configuration_file} ./${dir}/.spellchecker.yml`)
+
     childProcess.exec(`cd ${dir} && spellchecker --no-suggestions --config .spellchecker.yml`, (exception,out,err)=>{        
         let fail = false;
         if(err){
