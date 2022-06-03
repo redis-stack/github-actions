@@ -1,0 +1,4 @@
+files:
+  - "**/*.md"
+dictionaries:
+  - default_dictionary.txt

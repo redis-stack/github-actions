@@ -21,21 +21,25 @@ jobs:
       - name: Spellcheck
         uses: redis-stack/github-actions/spellcheck@main
         env:
-          DICTIONARY: dictionary.txt
-          DOCS_DIRECTORY: docs
+          CONFIGURATION_FILE: .spellcheck.yml
+          COMMANDS_FILE: 
 ```
 
 ## Configure this action
 
 There are two configuration options for this action that you might want to look at
 
-### DOCS_DIRECTORY
+### CONFIGURATION_FILE
 
-This is the directory where the documentation for your project is stored, e.g. `docs`
+Allows you to add a configuration file to the workflow should conform to the yml/json format for configuration laid out in [spellcheck-cli](https://www.npmjs.com/package/spellchecker-cli). By default, this will use the default dictionary and will search for files through `docs/**/*.md`
 
-### DICTIONARY
+### COMMANDS_FILES
 
-This is the dictionary file that the the action will use to spellcheck your project. This action uses the [spellcheck-cli](https://www.npmjs.com/package/spellchecker-cli) package, consequentially if you want to snap a baseline and generate a dictionary from where your project is, you can do so by changing your current directory to your documentation directory and running the following:
+The commands.json files for your repository, if there are any, if there, this action will parse them for you and use the commands & tokens from them in a separate dictionary from your primary dictionary.
+
+### Dictionaries
+
+Our repositories usually have some spelling that's valid in the context of the library, but may not be valid English. To overcome this challenge, we can create dictionary files that serve to handle This action uses the [spellcheck-cli](https://www.npmjs.com/package/spellchecker-cli) package, consequentially if you want to snap a baseline and generate a dictionary from where your project is, you can do so by changing your current directory to your documentation directory and running the following:
 
 ```bash
 sudo npm install -g spellchecker-cli
